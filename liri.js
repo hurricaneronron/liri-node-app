@@ -1,9 +1,9 @@
 require('dotenv').config( )
-
 var keys = require('./keys.js')
 
-var twitter = keys.twitter
-var spotify = keys.spotify
+var Spotify = require('node-spotify-api')
+var spotify = new Spotify(keys.spotify)
+// var client = new Twitter(keys.twitter)
 
 // for OMDB API
 var request = require("request")
@@ -17,11 +17,28 @@ switch (command) {
     break
   
   case "spotify-this-song":
+    var song = process.argv[3]
+    if (song === undefined) {
+      spotify
+        .request('https://api.spotify.com/v1/tracks/3DYVWvPh3kGwPasp7yjahc')
+        .then(function(data) {
+          console.log(data); 
+        })
+        .catch(function(err) {
+          console.error('Error occurred: ' + err); 
+        })
+    } else {
+      spotify.search({ type: 'track', query: ''+song+'', limit: 1 }, function(err, data) {
+        if (err) {
+          return console.log('Error occurred: ' + err)
+        }
+      console.log(data.tracks.items)
+      })
+    }
     break
   
   case "movie-this":
     var movie = process.argv[3]
-
     if (movie === undefined) {
       request("http://www.omdbapi.com/?t=mr+nobody&y=&plot=short&apikey=trilogy", function(error, response, body) {
         if (!error && response.statusCode === 200) {
