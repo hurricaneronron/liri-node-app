@@ -5,12 +5,36 @@ var keys = require('./keys.js')
 var twitter = keys.twitter
 var spotify = keys.spotify
 
-// console.log(process.env.TWITTER_CONSUMER_KEY)
+// Include the request npm package (Don't forget to run "npm install request" in this folder first!)
+var request = require("request");
 
-// test connection to keys.js
-console.log(twitter.consumer_key)
-console.log(twitter.consumer_secret)
-console.log(twitter.access_token_key)
-console.log(twitter.access_token_secret)
-console.log(spotify.id)
-console.log(spotify.secret)
+// Then run a request to the OMDB API with the movie specified
+request("http://www.omdbapi.com/?t=remember+the+titans&y=&plot=short&apikey=trilogy", function(error, response, body) {
+
+  // If the request is successful (i.e. if the response status code is 200)
+  if (!error && response.statusCode === 200) {
+
+    // Parse the body of the site and recover just the imdbRating
+    // (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
+    console.log("The movie's rating is: " + JSON.parse(body).imdbRating)
+    console.log(JSON.parse(body))
+  }
+})
+
+// take in commands:
+var command = process.argv[2]
+
+// switch-case to perform actions based on commands:
+switch (command) {
+  case "my-tweets":
+    break
+  
+  case "spotify-this-song":
+    break
+  
+  case "movie-this":
+    break
+  
+  case "do-what-it-says":
+    break
+  }
