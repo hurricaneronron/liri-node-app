@@ -3,7 +3,9 @@ var keys = require('./keys.js')
 
 var Spotify = require('node-spotify-api')
 var spotify = new Spotify(keys.spotify)
-// var client = new Twitter(keys.twitter)
+
+var Twitter = require('twitter')
+var client = new Twitter(keys.twitter)
 
 // for OMDB API
 var request = require("request")
@@ -14,6 +16,12 @@ var command = process.argv[2]
 // switch-case to perform actions based on commands:
 switch (command) {
   case "my-tweets":
+    var params = {screen_name: 'the_fingerTM'}
+    client.get('statuses/user_timeline', params, function(error, tweets, response) {
+      if (!error) {
+        console.log(tweets)
+      }
+    })
     break
   
   case "spotify-this-song":
