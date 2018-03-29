@@ -34,15 +34,13 @@ function spot ( ) {
         console.error('Error occurred: ' + err); 
       })
   } else {
-    spotify.search({ type: 'track', query: ''+search+'' }, function(err, data) {
-      for(var i = 0; i <= 10; i++) {
-      if (err) {
-        return console.log('Error occurred: ' + err)
-      } 
-      console.log(data.tracks.items[i].name + ' by ' + data.tracks.items[i].artists[i].name + ' on ' + data.tracks.items[i].album.name + ' / Link: ' + data.tracks.items[i].preview_url)
-      }
-    })
-  }
+      spotify.search({ type: 'track', query: ''+search+'' }, function(err, data) {
+        for(var i = 0; i <= 10; i++) {
+          if (err) {return console.log('Error occurred: ' + err)} 
+          console.log(data.tracks.items[i].name + ' by ' + data.tracks.items[i].artists[i].name + ' on ' + data.tracks.items[i].album.name + ' / Link: ' + data.tracks.items[i].preview_url)
+        }
+      })
+    }
 }
 
 // for OMDB API
@@ -104,10 +102,10 @@ function random ( ) {
 // switch-case to perform actions based on commands:
 switch (command) {
   case "my-tweets":
-    tweets ( )
+    tweets( )
     break
   case "spotify-this-song":
-    spot ( )
+    spot( )
     break
   case "movie-this":
     omdb( )
