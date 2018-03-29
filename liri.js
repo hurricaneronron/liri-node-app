@@ -1,6 +1,9 @@
 require('dotenv').config( )
 var keys = require('./keys.js')
 
+// take in commands:
+var command = process.argv[2]
+var search = process.argv[3]
 
 // for twitter API
 var Twitter = require('twitter')
@@ -20,8 +23,8 @@ function tweets ( ) {
 var Spotify = require('node-spotify-api')
 var spotify = new Spotify(keys.spotify)
 function spot ( ) {
-  var song = process.argv[3]
-  if (song === undefined) {
+  if (search === undefined) {
+    // default if no search term is provided
     spotify
       .request('https://api.spotify.com/v1/tracks/3DYVWvPh3kGwPasp7yjahc')
       .then(function(data) {
@@ -31,7 +34,7 @@ function spot ( ) {
         console.error('Error occurred: ' + err); 
       })
   } else {
-    spotify.search({ type: 'track', query: ''+song+'' }, function(err, data) {
+    spotify.search({ type: 'track', query: ''+search+'' }, function(err, data) {
       for(var i = 0; i <= 10; i++) {
       if (err) {
         return console.log('Error occurred: ' + err)
@@ -45,8 +48,8 @@ function spot ( ) {
 // for OMDB API
 var request = require("request")
 function omdb ( ) {
-  var movie = process.argv[3]
-  if (movie === undefined) {
+  // default if no search term is provided
+  if (search === undefined) {
     request("http://www.omdbapi.com/?t=mr+nobody&y=&plot=short&apikey=trilogy", function(error, response, body) {
       if (!error && response.statusCode === 200) {
         console.log('Title: ' + JSON.parse(body).Title)
@@ -61,7 +64,7 @@ function omdb ( ) {
     })
   } else {
     // run a request to the omdb API
-    request("http://www.omdbapi.com/?t="+movie+"&y=&plot=short&apikey=trilogy", function(error, response, body) {
+    request("http://www.omdbapi.com/?t="+search+"&y=&plot=short&apikey=trilogy", function(error, response, body) {
       // If the request is successful (i.e. if the response status code is 200)
       if (!error && response.statusCode === 200) {
         console.log('Title: ' + JSON.parse(body).Title)
@@ -84,22 +87,19 @@ function random ( ) {
   fs.readFile(path, 'utf8', function (err, d) {
     if (err) {console.log(err)}
     var arr = d.split(',')
-    console.log(arr)
-    song = arr[1]
-    console.log(song)
-    spotify.search({ type: 'track', query: ''+song+'' }, function(err, data) {
-      for(var i = 0; i <= 10; i++) {
-        if (err) {
-          return console.log('Error occurred: ' + err)
-        } 
-        console.log(data.tracks.items[i].name + ' by ' + data.tracks.items[i].artists[i].name + ' on ' + data.tracks.items[i].album.name + ' / Link: ' + data.tracks.items[i].preview_url)
-      }
-    })
+    command = arr[0]
+    search = arr[1]
+    if (command === 'spotify-this-song') {
+      spot( )
+    }
+    if (command === 'my-tweets') {
+      tweets( )
+    }  
+    if (command === 'movie-this') {
+      omdb( )
+    }
   })
 }
-
-// take in commands:
-var command = process.argv[2]
 
 // switch-case to perform actions based on commands:
 switch (command) {
