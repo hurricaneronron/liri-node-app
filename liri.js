@@ -19,7 +19,9 @@ switch (command) {
     var params = {screen_name: 'the_fingerTM'}
     client.get('statuses/user_timeline', params, function(error, tweets, response) {
       if (!error) {
-        console.log(tweets)
+        for(var i = 0; i < tweets.length; i++) {
+          console.log('Tweet: ' + tweets[i].text + ', Created at: ' + tweets[i].created_at)
+        }
       }
     })
     break
@@ -30,7 +32,7 @@ switch (command) {
       spotify
         .request('https://api.spotify.com/v1/tracks/3DYVWvPh3kGwPasp7yjahc')
         .then(function(data) {
-          console.log(data); 
+          console.log(data.name + ' by ' + data.artists[0].name + ' on ' + data.album.name + ' / Link: ' + data.preview_url); 
         })
         .catch(function(err) {
           console.error('Error occurred: ' + err); 
