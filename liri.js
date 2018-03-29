@@ -38,11 +38,14 @@ switch (command) {
           console.error('Error occurred: ' + err); 
         })
     } else {
-      spotify.search({ type: 'track', query: ''+song+'', limit: 1 }, function(err, data) {
+      spotify.search({ type: 'track', query: ''+song+'' }, function(err, data) {
+        for(var i = 0; i <= 10; i++) {
         if (err) {
           return console.log('Error occurred: ' + err)
+        } 
+        console.log(data.tracks.items[i].name + ' by ' + data.tracks.items[i].artists[i].name + ' on ' + data.tracks.items[i].album.name + ' / Link: ' + data.tracks.items[i].preview_url)
+        // console.log(data.tracks.items)
         }
-      console.log(data.tracks.items[0].name + ' by ' + data.tracks.items[0].artists[0].name + ' on ' + data.tracks.items[0].album.name + ' / Link: ' + data.tracks.items[0].preview_url)
       })
     }
     break
