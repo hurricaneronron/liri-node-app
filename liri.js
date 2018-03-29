@@ -42,7 +42,7 @@ switch (command) {
         if (err) {
           return console.log('Error occurred: ' + err)
         }
-      console.log(data.tracks.items)
+      console.log(data.tracks.items[0].name + ' by ' + data.tracks.items[0].artists[0].name + ' on ' + data.tracks.items[0].album.name + ' / Link: ' + data.tracks.items[0].preview_url)
       })
     }
     break
