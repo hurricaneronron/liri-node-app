@@ -44,7 +44,6 @@ switch (command) {
           return console.log('Error occurred: ' + err)
         } 
         console.log(data.tracks.items[i].name + ' by ' + data.tracks.items[i].artists[i].name + ' on ' + data.tracks.items[i].album.name + ' / Link: ' + data.tracks.items[i].preview_url)
-        // console.log(data.tracks.items)
         }
       })
     }
